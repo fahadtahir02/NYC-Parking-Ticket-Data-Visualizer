@@ -5,3 +5,5 @@ plotly
 plotly-express
 scikit-learn==0.23.2
 pycaret
+seaborn
+matplotlib
