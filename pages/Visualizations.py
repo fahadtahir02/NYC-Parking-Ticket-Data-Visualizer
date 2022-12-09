@@ -78,3 +78,14 @@ elif(option == "Fines Over the Years"):
     for year in range(len(df['Years'])):
         st.write(df['Years'].iloc[year], ": $", df['Total Earned'].iloc[year])
     # can use a switch structure to choose what graph to display based on option 
+elif(option == "Common Kinds of Tickets"):
+    gb = df.groupby('Violation Code').size().reset_index(name="Total Amount").sort_values(by = "Total Amount")
+    #out_vs_in = gb['Violation Code'].count().sort_values()
+    #out_vs_in.plot(kind='barh', figsize = (34,21))
+
+    fig = plt.figure(figsize=(13,8))
+    ax = sns.barplot(data = gb.nlargest(10, "Total Amount"), x = 'Violation Code', y = 'Total Amount',  order=gb["Violation Code"])
+    ax.set(xlim=(68,79))
+
+    st.pyplot(fig)
+
