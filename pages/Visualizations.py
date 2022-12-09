@@ -78,3 +78,42 @@ elif(option == "Fines Over the Years"):
     for year in range(len(df['Years'])):
         st.write(df['Years'].iloc[year], ": $", df['Total Earned'].iloc[year])
     # can use a switch structure to choose what graph to display based on option 
+
+elif(option == "Most Spotted Color"):
+    data = pd.read_csv('https://raw.githubusercontent.com/fahadtahir02/NYC-Parking-Ticket-Data-Visualizer/main/data/NYC_Parking_Data.csv')
+    ndata = data[["Violation Code", "Issue Date"]].copy()
+    ndata.transpose()
+    vCode = ndata["Violation Code"].unique()
+    frequency = data['Vehicle Color'].map(data['Vehicle Color'].value_counts())
+    df1 = pd.DataFrame(frequency)
+    df1.rename(columns={"Vehicle Color": "Frequency"}, inplace = "True")
+    cData = data[['Vehicle Color', 'Violation Code']].copy()
+    df_main = pd.concat([cData, df1], axis = 1)
+    df_main = df_main.sort_values('Frequency', ascending=False)
+    df_main = df_main.dropna()
+    
+    color_ticket = {
+    "White" : 9,
+    "Silver" : 8,
+    "Grey" : 5,
+    "Black" : 4
+
+    }
+
+    # Data to plot
+    labels = []
+    sizes = []
+
+    for x, y in color_ticket.items():
+        labels.append(x)
+        sizes.append(y)
+
+    # Plot
+    fig = plt.figure(figsize=(13,8))
+    dig = plt.pie(sizes, labels=labels)
+
+    #plt.axis('equal')
+    #plt.show()
+    st.write()
+    st.pyplot(fig)
+
