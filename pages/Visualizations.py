@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import streamlit as st
 import plotly.express as px
+import plotly.graph_objects as go
 
 df = pd.read_csv("data/NYC_Parking_Data.csv")
 
@@ -189,12 +190,29 @@ elif(option == "Most Spotted Color"):
     st.write()
     st.pyplot(fig)
 elif(option == "Common Kinds of Tickets"):
-    gb = df.groupby('Violation Code').size().reset_index(name="Total Amount").sort_values(by = "Total Amount")
-    #out_vs_in = gb['Violation Code'].count().sort_values()
-    #out_vs_in.plot(kind='barh', figsize = (34,21))
 
-    fig = plt.figure(figsize=(13,8))
-    ax = sns.barplot(data = gb.nlargest(10, "Total Amount"), x = 'Violation Code', y = 'Total Amount',  order=gb["Violation Code"])
-    ax.set(xlim=(68,79))
+    tag_1 = "Standing or parking a vehicle without showing a current New York registration sticker."
+    tag_2 = "Bus Stop: Standing or parking where standing is not allowed by sign, street marking or; traffic control device."
+    tag_3 = "Parking Meter -- Parking in excess of the allowed time"
+    tag_4 = "Standing or parking a vehicle without showing a current New York inspection sticker."
+    tag_5 = "Stopping, standing or parking closer than 15 feet of a fire hydrant"
+    tag_6 = "General No Parking: No parking where parking is not allowed by sign, street marking or traffic control device."
+    tag_7 = "Parking Meter -- Failing to show a receipt or tag in the windshield."
+    tag_8 = "General No Standing: Standing or parking where standing is not allowed by sign, street marking or; traffic control device."
+    tag_9 =  "Standing or parking on the roadway side of a vehicle stopped, standing or parked at the curb; in other words also known as double parking."
+    tag_10 = "Street Cleaning: No parking where parking is not allowed by sign, street marking or traffic control device."
+    
+    df3 = df.groupby(['Violation Code']).size().reset_index(name ='Total Amount').sort_values(by='Total Amount')
+    df_top_10 = df3.tail(10)
+    list_int = df_top_10['Violation Code'].tolist()
 
-    st.pyplot(fig)
+    fig = go.Figure(data=[go.Bar(x=list(map(str,list_int)), y=df_top_10["Total Amount"].tolist(), 
+            hovertext=[tag_1,tag_2,tag_3,tag_4,tag_5,tag_6,tag_7,tag_8,tag_9,tag_10])],layout=go.Layout(height=600, width=900))
+    # Customize aspect
+    fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)',
+                  marker_line_width=1.5, opacity=0.6)
+    fig.update_layout(title_text='Top 10 Most Common Kinds of Tickets',
+                        xaxis_title="Violation Code Number",
+                        yaxis_title="Total Amount")
+    
+    st.plotly_chart(fig, use_container_width = True)
