@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 
 df = pd.read_csv("data/NYC_Parking_Data.csv")
 
-st.header("Choose a visualization to view 👋")
+st.header("📈 Choose a visualization to view 📈")
 
 visuals = ["Hotspots", "Common Kinds of Tickets", "Time of Day", "Most Spotted Color", "Fines Over the Years"]
 
@@ -43,7 +43,7 @@ if(option == "Time of Day"):
                                 color = new_df['Price of Ticket'], # this option can change as long as it is of type int
                                 #color_continuous_scale = "bluyl", #bluyl
                                 center = {'lat' : 40.7,'lon' : -74},
-                                title = "Park it like it's hot",
+                                title = "Time of Day",
                                 hover_name = new_df['Full Address'],
                                 hover_data = [new_df['Time'],new_df['Issue Date'],new_df['Violation'],new_df['Price of Ticket']],
                                 height = 700,
@@ -110,7 +110,7 @@ elif(option == "Hotspots"):
                                 #color = new_df['Price of Ticket'], # this option can change as long as it is of type int
                                 #color_continuous_scale = "bluyl", #bluyl
                                 center = {'lat' : 40.7,'lon' : -74},
-                                title = "Park it like it's hot",
+                                title = "Hotspots",
                                 hover_name = new_df['Full Address'],
                                 hover_data = [new_df['Time'],new_df['Issue Date'],new_df['Violation'],new_df['Price of Ticket']],
                                 opacity = 0.75,

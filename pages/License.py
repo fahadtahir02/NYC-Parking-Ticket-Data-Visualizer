@@ -6,7 +6,7 @@ import streamlit as st
 
 df = pd.read_csv("https://raw.githubusercontent.com/fahadtahir02/NYC-Parking-Ticket-Data-Visualizer/main/data/NYC_Parking_Data.csv")
 
-st.header("Find your license plate 👋")
+st.header("🔍 Find your license plate! 🔍")
 
 license_values = np.insert(df['Plate ID'].unique(),0,values="All")
 
